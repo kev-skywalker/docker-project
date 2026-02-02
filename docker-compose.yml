@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  website:
+    image: php:apache
+    depends_on:
+      - api
+    ports:
+      - "8082:80"
+    volumes:
+      - ./website:/var/www/html
+    environment:
+      - USERNAME=${API_USER}
+      - PASSWORD=${API_PASSWORD}
+      - API_URL=${API_URL}
+    networks:
+      - pozos-network
+
+  api:
+    image: "ghcr.io/kev-skywalker/learning:v1"
+    container_name: learning:v1
+    ports:
+      - "4000:5000"
+    volumes:
+      - ./simple_api/student_age.json:/data/student_age.json:
+    networks:
+      pozos-network:
+        aliases:
+          - ${DOMAIN_NAME}
+
+networks:
+  pozos-network:
+    driver: bridge
