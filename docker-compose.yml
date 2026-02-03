@@ -17,8 +17,6 @@ services:
   api:
     image: "ghcr.io/kev-skywalker/learning:v1"
     container_name: api-v1
-    ports:
-      - "4000:5000"
     volumes:
       - ./simple_api/student_age.json:/data/student_age.json
     networks:
